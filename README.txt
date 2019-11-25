@@ -9,6 +9,7 @@ PREPARE TO START
   - ./run start/stop
 
 
-
+Here is an example chart:
+https://gyazo.com/b772e5fb41df4c673e506e1410ff1708
 
 -> If you want to donate me write on telegram @Stal_ker <-
