@@ -64,15 +64,7 @@ if($ts->getElement('success', $ts->connect())){
 
       $data = json_decode(file_get_contents('cache/data.json'), true);
 
-      $tab = [
-        1 => 'Pon.',
-        2 => 'Wt.',
-        3 => 'Śr.',
-        4 => 'Czw.',
-        5 => 'Pt.',
-        6 => 'Sob.',
-        7 => 'Niedz.',
-      ];
+      $tab = $cfg['text']['days']['days'];
 
       foreach($cfg['settings']['groups'] as $group => $channel){
         # colors from hex to rgb
