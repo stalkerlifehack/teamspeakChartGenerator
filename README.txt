@@ -1,4 +1,4 @@
-REQUIRMENTS
+REQUIREMENTS
   - Best php7.2 or higher
   - PHP gd
   - screen
