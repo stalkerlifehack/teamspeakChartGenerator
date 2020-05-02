@@ -9,7 +9,7 @@ $cfg = [
   'conn' => [
 
     # IP
-    'ip_address' => '127.0.0.1',
+    'ip_address' => 'X',
 
     # voice port
     'voice_port' => 9987,
@@ -18,10 +18,10 @@ $cfg = [
     'query_port' => 10011,
 
     # query passwd
-    'query_passwd' => 'XX',
+    'query_passwd' => 'X',
 
     # query login
-    'query_login' => 'XX',
+    'query_login' => 'serveradmin',
 
     # bot name (The bot must have in his name phrase 'qBot')
     'bot_name' => 'qBot @ chartGenerator',
@@ -35,14 +35,15 @@ $cfg = [
     'groups' => [
 
       # serverGroup => channelID
-      50 => 18377,
+      7 => 6,
+      8 => 6
     ],
 
     # Path where the bot will save charts
-    'path' => '/var/www/html/images',
+    'path' => '/Users/dani/Desktop',
 
     # Url to charts
-    'url' => 'http://IP_VPS/images',
+    'url' => 'http://query.jutuby.net',
 
     # Channel description
     'desc' => '[center][chart][/center]'

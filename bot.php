@@ -127,96 +127,97 @@ if($ts->getElement('success', $ts->connect())){
           imagettftext($im, 12, 0, 190, 120, imagecolorallocate($im, 255, 255, 255), $cfg['text']['days']['font'], 'Brak użytkownikow');
         }
 
-      }
+      
 
-      if($users){
-        # vertical
-        for($i=93; $i<503; $i=$i+82){
-          imageline($im, $i, 55, $i, 175, imagecolorallocate($im, $r[2], $g[2], $b[2]));
-        }
-
-        # days
-        $i = 0;
-        $j = 85;
-        while(1){
-
-          if((((date('N', max(array_keys($data[$group]))))-4)+$i) <= 0){
-            imagettftext($im, $cfg['text']['days']['size'], 0, $j, 205, imagecolorallocate($im, $r[5], $g[5], $b[5]), $cfg['text']['days']['font'], $tab[((((date('N', max(array_keys($data[$group]))))-4)+$i)+7)]);
-          }
-          else{
-            imagettftext($im, $cfg['text']['days']['size'], 0, $j, 205, imagecolorallocate($im, $r[5], $g[5], $b[5]), $cfg['text']['days']['font'], $tab[(((date('N', max(array_keys($data[$group]))))-4)+$i)]);
+        if($users){
+          # vertical
+          for($i=93; $i<503; $i=$i+82){
+            imageline($im, $i, 55, $i, 175, imagecolorallocate($im, $r[2], $g[2], $b[2]));
           }
 
-          if($i == 4){
-            break;
-          }
-          $i++;
-          $j = $j+82;
-        }
+          # days
+          $i = 0;
+          $j = 85;
+          while(1){
 
-
-      # uzupelnianie
-
-        $i = 0;
-        $j = 0;
-        foreach($data[$group] as $index => $value){
-
-
-          if($index-$i > 3600 && $i != 0){
-
-            $j = intval(($index-$i)/3600);
-            $k = $index-3600;
-            while($j > 1){
-              $array[$k] = 0;
-              $j--;
-              $k = $k-3600;
+            if((((date('N', max(array_keys($data[$group]))))-4)+$i) <= 0){
+              imagettftext($im, $cfg['text']['days']['size'], 0, $j, 205, imagecolorallocate($im, $r[5], $g[5], $b[5]), $cfg['text']['days']['font'], $tab[((((date('N', max(array_keys($data[$group]))))-4)+$i)+7)]);
+            }
+            else{
+              imagettftext($im, $cfg['text']['days']['size'], 0, $j, 205, imagecolorallocate($im, $r[5], $g[5], $b[5]), $cfg['text']['days']['font'], $tab[(((date('N', max(array_keys($data[$group]))))-4)+$i)]);
             }
 
-            $array[$index] = $value;
+            if($i == 4){
+              break;
+            }
+            $i++;
+            $j = $j+82;
           }
-          else{
-            $array[$index] = $value;
+
+
+        # uzupelnianie
+
+          $i = 0;
+          $j = 0;
+          foreach($data[$group] as $index => $value){
+
+
+            if($index-$i > 3600 && $i != 0){
+
+              $j = intval(($index-$i)/3600);
+              $k = $index-3600;
+              while($j > 1){
+                $array[$k] = 0;
+                $j--;
+                $k = $k-3600;
+              }
+
+              $array[$index] = $value;
+            }
+            else{
+              $array[$index] = $value;
+            }
+            $i = $index;
+
           }
-          $i = $index;
+
+
+          # function
+          $i = 93;
+          $j = 0;
+          foreach($array as $index => $value){
+            if(max(array_keys($data[$group]))-$index < 345600){
+              $table[] = $value;
+            }
+          }
+
+          foreach($table as $index => $value){
+
+            @imageline($im, $i, 175-(120/max($data[$group])*$value), $i+(82/24), 175-(120/max($data[$group])*$table[$index+1]), imagecolorallocate($im, $r[3], $g[3], $b[3]));
+            $i = $i+(82/24);
+
+          }
+
+          imagettftext($im, $cfg['text']['online']['size'], 90, 30, 150, imagecolorallocate($im, $r[6], $g[6], $b[6]), $cfg['text']['online']['font'], $cfg['text']['online']['text']);
+
+          imagettftext($im, $cfg['text']['title']['size'], 0, 175, 30, imagecolorallocate($im, $r[7], $g[7], $b[7]), $cfg['text']['title']['font'], $cfg['text']['title']['text']);
 
         }
 
 
-        # function
-        $i = 93;
-        $j = 0;
-        foreach($array as $index => $value){
-          if(max(array_keys($data[$group]))-$index < 345600){
-            $table[] = $value;
+
+        foreach(scandir($cfg['settings']['path']) as $file){
+          if(strpos($file, $group."_") !== false){
+            unlink($cfg['settings']['path'].'/'.$file);
           }
         }
+        $name = $group.'_'.time();
+        imagepng($im, $cfg['settings']['path'].'/'.$name.'.png');
 
-        foreach($table as $index => $value){
+        $replace = str_replace('[chart]', '[img]'.$cfg['settings']['url'].'/'.$name.'.png[/img]', $cfg['settings']['desc']);
 
-          @imageline($im, $i, 175-(120/max($data[$group])*$value), $i+(82/24), 175-(120/max($data[$group])*$table[$index+1]), imagecolorallocate($im, $r[3], $g[3], $b[3]));
-          $i = $i+(82/24);
-
-        }
-
-        imagettftext($im, $cfg['text']['online']['size'], 90, 30, 150, imagecolorallocate($im, $r[6], $g[6], $b[6]), $cfg['text']['online']['font'], $cfg['text']['online']['text']);
-
-        imagettftext($im, $cfg['text']['title']['size'], 0, 175, 30, imagecolorallocate($im, $r[7], $g[7], $b[7]), $cfg['text']['title']['font'], $cfg['text']['title']['text']);
-
+        $ts->channelEdit($channel, array('channel_description' => $replace));
       }
-
-
-
-      foreach(scandir($cfg['settings']['path']) as $file){
-        if(strpos($file, $group."_") !== false){
-          unlink($cfg['settings']['path'].'/'.$file);
-        }
-      }
-      $name = $group.'_'.time();
-      imagepng($im, $cfg['settings']['path'].'/'.$name.'.png');
-
-      $replace = str_replace('[chart]', '[img]'.$cfg['settings']['url'].'/'.$name.'.png[/img]', $cfg['settings']['desc']);
-
-      $ts->channelEdit($channel, array('channel_description' => $replace));
     }
 
 
